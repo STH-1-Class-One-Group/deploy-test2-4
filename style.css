@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+#whale-container {
+    position: relative; /* This is crucial for positioning whiskers */
+}
+
+#whale-img {
+    width: 400px;
+    height: auto;
+    display: block; /* Removes extra space below the image */
+}
+
+#controls {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 20px);
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid #3498db;
+    background-color: white;
+    color: #3498db;
+    border-radius: 5px;
+    width: 150px;
+}
+
+.whisker {
+    position: absolute;
+    width: 30px; /* length of the whisker */
+    height: 2px; /* thickness of the whisker */
+    background-color: black;
+    border-radius: 1px;
+    transform-origin: left center;
+}
