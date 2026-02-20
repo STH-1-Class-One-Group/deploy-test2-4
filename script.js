@@ -1,21 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
-    /* 1. HTML 요소 불러오기 */
+document.addEventListener('DOMContentLoaded', () => { /*html 페이지가 모두 로드되면 시작해라*/
+
+    /*html에 있던거 가져와서 쓰겠다.*/
     const moreBtn = document.getElementById('more-btn');
     const resetBtn = document.getElementById('toggle-btn');
     const whaleContainer = document.getElementById('whale-container');
     const whaleImg = document.getElementById('whale-img');
     const hair_zone = document.getElementById('hair-zone');
 
-    let whiskerCount = 0; /* 수염 개수 관리 */
+    let whiskerCount = 0; /*수염 개수*/
 
-    /* 2. 'More' 버튼 클릭: 수염 생성 */
-/* 2. 'More' 버튼 클릭 이벤트 */
+
+/*More 버튼*/
 moreBtn.addEventListener('click', () => {
     
-    // [수정] 한 가닥만 생성하기 위해 반복문 삭제
+    /*div 만들어서 whisker이라고 하고, className를 whisker이라 지음.*/
     const whisker = document.createElement('div');
     whisker.className = 'whisker';
 
+
+    /*여기부터는 수학 공식-----------------------------------------------*/
+    /*위치 확인*/
     const hairRect = hair_zone.getBoundingClientRect();
     const containerRect = whaleContainer.getBoundingClientRect();
 
@@ -46,18 +50,17 @@ moreBtn.addEventListener('click', () => {
     // 90도를 빼주는 이유는 수염(div)의 기본 방향 때문입니다.
     const rotationDeg = (angle * 180 / Math.PI) - 90;
     whisker.style.transform = `rotate(${rotationDeg}deg)`;
-    
-    // 기획한 레이어: 고래(3) > 수염(2) > hair(1)
-    whisker.style.zIndex = '2';
+    /*---------------------------------------------------------------*/
 
-    // 화면에 추가
-    whaleContainer.appendChild(whisker);
+    whisker.style.zIndex = '2'; /*카멜 표기법 zIndex*/
+
+    whaleContainer.appendChild(whisker); /*고래 영역에 수염 추가*/
     
-    whiskerCount++;
-    console.log(`수염이 ${whiskerCount}개째 자라나고 있습니다!`);
 });
 
-    /* 3. 'Reset' 버튼 클릭: 초기화 */
+    /*Reset 버튼*/
+    /*.whisker이 식별자인 애들을 전부 다 찾아서 담고, 하나씩 꺼내서 지운다.*/
+    /*수염 개수도 0으로 초기화*/
     resetBtn.addEventListener('click', () => {
         const allWhiskers = document.querySelectorAll('.whisker');
         allWhiskers.forEach(w => w.remove());
