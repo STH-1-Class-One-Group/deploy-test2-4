@@ -4,27 +4,54 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0;
+    background-color: #ebb9b9;
+    overflow: hidden; 
 }
 
 #whale-container {
-    position: relative; /* This is crucial for positioning whiskers */
+    position: relative; 
+    display: flex;
+    align-items: center;
 }
 
 #whale-img {
     width: 400px;
     height: auto;
-    display: block; /* Removes extra space below the image */
+    display: block;
+    /* [수정] 수염보다 위로 오도록 설정 */
+    position: relative; 
+    z-index: 3; 
+}
+
+#hair-zone {
+    position: absolute;
+    top: 61%; 
+    left: 7%;
+    width: 150px; 
+    height: 80px;
+    /* [수정] 가장 바닥 레이어 */
+    z-index: 1; 
+    pointer-events: none; 
+}
+
+.whisker {
+    width: 2px;
+    height: 15px;
+    background-color: #000000;
+    position: absolute;
+    border-radius: 2px;
+    pointer-events: none;
+    /* [수정] hair보다는 위, 고래보다는 아래 */
+    z-index: 2; 
 }
 
 #controls {
-    position: absolute;
-    top: 50%;
-    left: calc(100% + 20px);
-    transform: translateY(-50%);
+    margin-left: 20px; 
     display: flex;
     flex-direction: column;
     gap: 10px;
+    /* [수정] 버튼은 언제나 클릭 가능하게 가장 위로 */
+    z-index: 1000; 
 }
 
 button {
@@ -36,13 +63,10 @@ button {
     color: #3498db;
     border-radius: 5px;
     width: 150px;
+    transition: 0.2s;
 }
 
-.whisker {
-    position: absolute;
-    width: 30px; /* length of the whisker */
-    height: 2px; /* thickness of the whisker */
-    background-color: black;
-    border-radius: 1px;
-    transform-origin: left center;
+button:hover {
+    background-color: #3498db;
+    color: white;
 }
