@@ -1,4 +1,4 @@
-body {
+body { /*공통*/
     margin: 0;
     height: 100vh;
     display: flex;
@@ -8,53 +8,41 @@ body {
     overflow: hidden; 
 }
 
-#whale-container {
+/*-----------------------------------------*/
+#whale-container { 
     position: relative; 
     display: flex;
     align-items: center;
 }
 
-#whale-img {
-    width: 400px;
-    height: auto;
-    display: block;
-    /* [수정] 수염보다 위로 오도록 설정 */
-    position: relative; 
-    z-index: 3; 
-}
-
-#hair-zone {
-    position: absolute;
+#hair-zone { /*수염 배치용 이미지*/
+    position: absolute; /*얘가 중심*/
     top: 61%; 
     left: 7%;
     width: 150px; 
     height: 80px;
-    /* [수정] 가장 바닥 레이어 */
     z-index: 1; 
     pointer-events: none; 
 }
 
-.whisker {
-    width: 2px;
-    height: 15px;
-    background-color: #000000;
-    position: absolute;
-    border-radius: 2px;
-    pointer-events: none;
-    /* [수정] hair보다는 위, 고래보다는 아래 */
-    z-index: 2; 
+#whale-img { /*고래 이미지*/
+    width: 400px;
+    height: auto;
+    display: block;
+    position: relative; 
+    z-index: 3; 
 }
+/*-----------------------------------------*/
 
 #controls {
     margin-left: 20px; 
     display: flex;
     flex-direction: column;
     gap: 10px;
-    /* [수정] 버튼은 언제나 클릭 가능하게 가장 위로 */
     z-index: 1000; 
 }
 
-button {
+button { /*버튼 전체*/
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -66,7 +54,19 @@ button {
     transition: 0.2s;
 }
 
-button:hover {
+button:hover { /*마우스를 올리면 버튼 색이 바뀜!*/
     background-color: #3498db;
     color: white;
+}
+
+/*-----------------------------------------*/
+
+.whisker { /*수염*/
+    width: 2px;
+    height: 15px;
+    background-color: #000000;
+    position: absolute;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 2; 
 }
