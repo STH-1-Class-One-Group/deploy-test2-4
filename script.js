@@ -1,43 +1,66 @@
 document.addEventListener('DOMContentLoaded', () => {
+    /* 1. HTML 요소 불러오기 */
     const moreBtn = document.getElementById('more-btn');
     const resetBtn = document.getElementById('toggle-btn');
     const whaleContainer = document.getElementById('whale-container');
     const whaleImg = document.getElementById('whale-img');
+    const hair_zone = document.getElementById('hair-zone');
 
-    let whiskerCount = 0; // 수염 개수를 추적
+    let whiskerCount = 0; /* 수염 개수 관리 */
 
-    // 'more' 버튼 클릭 시 수염 생성
-    moreBtn.addEventListener('click', () => {
-        const whisker = document.createElement('div');
-        whisker.className = 'whisker';
-        
-        // 고래 이미지의 상대적인 위치 계산
-        const whaleRect = whaleImg.getBoundingClientRect();
-        const containerRect = whaleContainer.getBoundingClientRect();
+    /* 2. 'More' 버튼 클릭: 수염 생성 */
+/* 2. 'More' 버튼 클릭 이벤트 */
+moreBtn.addEventListener('click', () => {
+    
+    // [수정] 한 가닥만 생성하기 위해 반복문 삭제
+    const whisker = document.createElement('div');
+    whisker.className = 'whisker';
 
-        // 수염의 위치를 고래 이미지의 턱 부분에 맞춰 조정
-        // whaleImg의 왼쪽 상단을 기준으로 상대적인 위치 (px)
-        const baseLeft = (whaleRect.left - containerRect.left) + whaleRect.width * 0.45; // 고래 입 중앙 근처
-        const baseTop = (whaleRect.top - containerRect.top) + whaleRect.height * 0.65; // 고래 턱 부분
+    const hairRect = hair_zone.getBoundingClientRect();
+    const containerRect = whaleContainer.getBoundingClientRect();
 
-        // 각 수염마다 약간의 무작위성과 간격 추가
-        const dynamicLeft = baseLeft + (Math.random() - 0.5) * 20; // 좁은 범위 내에서 좌우 무작위
-        const dynamicTop = baseTop + whiskerCount * 5; // 아래로 갈수록 내려가게
-        const rotation = -30 + (whiskerCount * 5); // 약간의 각도 변화
+    // 1. 0 ~ 180도 사이의 랜덤 각도 (고래 턱의 완만한 곡선 구간)
+    const angle = Math.random() * Math.PI; 
 
-        whisker.style.left = `${dynamicLeft}px`;
-        whisker.style.top = `${dynamicTop}px`;
-        whisker.style.transform = `rotate(${rotation}deg)`;
-        whisker.style.zIndex = 10; // 고래 이미지 위에 오도록
+    // 2. 타원 궤적 계산 (hair-zone의 테두리 좌표)
+    const radiusX = hairRect.width / 2;
+    const radiusY = hairRect.height / 2;
+    
+    // 중심점 기준 계산
+    const centerX = radiusX;
+    const centerY = radiusY;
+    
+    // 타원의 공식 적용 (x = a cos θ, y = b sin θ)
+    const relX = centerX + radiusX * Math.cos(angle);
+    const relY = centerY + radiusY * Math.sin(angle);
 
-        whaleContainer.appendChild(whisker);
-        whiskerCount++;
-    });
+    // 3. 최종 위치 좌표 (부모 컨테이너 기준)
+    const posX = (hairRect.left - containerRect.left) + relX;
+    const posY = (hairRect.top - containerRect.top) + relY;
 
-    // 'Reset' 버튼 클릭 시 모든 수염 제거
+    // 4. 스타일 적용
+    whisker.style.left = `${posX}px`;
+    whisker.style.top = `${posY}px`;
+
+    // [포인트] 수염이 턱 바깥쪽을 향해 뻗도록 각도 계산
+    // 90도를 빼주는 이유는 수염(div)의 기본 방향 때문입니다.
+    const rotationDeg = (angle * 180 / Math.PI) - 90;
+    whisker.style.transform = `rotate(${rotationDeg}deg)`;
+    
+    // 기획한 레이어: 고래(3) > 수염(2) > hair(1)
+    whisker.style.zIndex = '2';
+
+    // 화면에 추가
+    whaleContainer.appendChild(whisker);
+    
+    whiskerCount++;
+    console.log(`수염이 ${whiskerCount}개째 자라나고 있습니다!`);
+});
+
+    /* 3. 'Reset' 버튼 클릭: 초기화 */
     resetBtn.addEventListener('click', () => {
         const allWhiskers = document.querySelectorAll('.whisker');
-        allWhiskers.forEach(whisker => whisker.remove());
-        whiskerCount = 0; // 수염 개수 초기화
+        allWhiskers.forEach(w => w.remove());
+        whiskerCount = 0; 
     });
 });
